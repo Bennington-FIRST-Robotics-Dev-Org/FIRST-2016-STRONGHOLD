@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	private void SubsystemInit() { 
-		this.driveSys = new DriveSubsystem(0.1); 
+		this.driveSys = new DriveSubsystem(0.02); 
 		this.camSys = new CameraSubsystem(); 
 		this.pneu = new Pneumatics(); 
 	}

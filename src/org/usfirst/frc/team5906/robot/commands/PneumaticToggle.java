@@ -11,11 +11,13 @@ public class PneumaticToggle extends Command {
 
     public PneumaticToggle() {
         requires(Robot.pneu); 
+        System.out.println("yo.");
     }
 
     // Called just before this Command runs the first time
     protected void initialize() { 
-    	//Robot.pneu.SolenoidToggle(); 
+    	Robot.pneu.SolenoidToggle(); 
+    	System.out.println("Solenoid toggle."); 
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -24,7 +26,7 @@ public class PneumaticToggle extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

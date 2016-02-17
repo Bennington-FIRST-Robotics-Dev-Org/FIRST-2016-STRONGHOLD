@@ -3,7 +3,9 @@ package org.usfirst.frc.team5906.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.DoubleSolenoid; 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Timer;
+
 import org.usfirst.frc.team5906.robot.*;
 /**
  *
@@ -15,14 +17,14 @@ public class Pneumatics extends Subsystem {
 	
 	private Compressor compres; 
 	private DoubleSolenoid solenoid; 
-	private DigitalInput pressure; 
+	private DigitalInput pressure;
+	private boolean SolenoidForward = false; 
 	
 	public Pneumatics() { 
 		compres = new Compressor(Robot.map.CompressorID); 
 		solenoid = new DoubleSolenoid(0, Robot.map.SolenoidForwardID, Robot.map.SolenoidReverseID); 
 		pressure = new DigitalInput(Robot.map.PressureSensorPort);  
-		this.compres.setClosedLoopControl(false); 
-		this.compres.stop(); 
+		this.compres.setClosedLoopControl(true); 
 	} 
 	
 	public void StartCompressor() { 
@@ -34,10 +36,12 @@ public class Pneumatics extends Subsystem {
 	} 
 	
 	public void SolenoidActivateForward() { 
+		this.SolenoidForward = true; 
 		this.solenoid.set(DoubleSolenoid.Value.kReverse); 
 	} 
 	
 	public void SolenoidActivateReverse() { 
+		this.SolenoidForward = false; 
 		this.solenoid.set(DoubleSolenoid.Value.kForward);
 	} 
 	
@@ -47,6 +51,19 @@ public class Pneumatics extends Subsystem {
 	
 	public boolean GetPressure() { 
 		return this.compres.getPressureSwitchValue(); 
+	} 
+	
+	public void SolenoidToggle() { 
+		if (this.SolenoidForward) { 
+			this.SolenoidActivateReverse(); 
+			this.SolenoidForward = false;  
+		} 
+		else { 
+			this.SolenoidActivateForward(); 
+			this.SolenoidForward = true; 
+		} 
+		Timer.delay(0.05); 
+		this.SolenoidActivateOff(); 
 	}
 	
     public void initDefaultCommand() {
