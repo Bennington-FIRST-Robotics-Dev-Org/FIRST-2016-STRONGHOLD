@@ -14,7 +14,8 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CameraFeed extends Command {
 
 	
-	Image img = null; 
+	Image img = null;
+	private boolean LiveFeedMode; 
 	
     public CameraFeed() {
         requires(Robot.camSys); 
@@ -27,9 +28,11 @@ public class CameraFeed extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.camSys.GetCamImage(img);
-    	CameraServer.getInstance().setImage(img);
+    protected void execute() { 
+		Robot.camSys.GetCamImage(img); 
+    	if (this.LiveFeedMode) { 
+    		CameraServer.getInstance().setImage(img); 
+    	} 
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -40,6 +43,14 @@ public class CameraFeed extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	
+    } 
+    
+    public void DisableRawFeed() { 
+    	this.LiveFeedMode = false; 
+    } 
+    
+    public void EnableRawFeed() { 
+    	this.LiveFeedMode = true; 
     }
 
     // Called when another command which requires one or more of the same

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team5906.robot.RobotStatus;
 import org.usfirst.frc.team5906.robot.commands.AutonomousDrive;
+import org.usfirst.frc.team5906.robot.commands.BallLockOn;
 import org.usfirst.frc.team5906.robot.commands.CameraFeed;
 import org.usfirst.frc.team5906.robot.commands.TeleOpDrive;
 import org.usfirst.frc.team5906.robot.subsystems.CameraSubsystem;
@@ -23,8 +24,9 @@ public class Robot extends IterativeRobot {
 	public static Pneumatics pneu; 
 	
 	private TeleOpDrive teleOpDriveCommand;    
-	private CameraFeed feed;     
+	public static CameraFeed feed;     
 	private AutonomousDrive autonomousDriveCommand; 
+	private BallLockOn ballcom;  
 	
 	
 	private void CameraInit() { 
@@ -33,7 +35,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	private void SubsystemInit() { 
-		this.driveSys = new DriveSubsystem(0.02); 
+		this.driveSys = new DriveSubsystem(0.7); 
 		this.camSys = new CameraSubsystem(); 
 		this.pneu = new Pneumatics(); 
 	}
@@ -59,7 +61,7 @@ public class Robot extends IterativeRobot {
     	try { 
     		System.out.println("Subsystems being initialized.");    
     		this.SubsystemInit(); 
-    		System.out.println("Subsystems initialized.");    
+    		System.out.println("Subsystems initialized."); 
     		System.out.println("Camera being initialized.");    
     		this.CameraInit(); 
     		System.out.println("Camera initialized.");    
@@ -81,7 +83,7 @@ public class Robot extends IterativeRobot {
     	} 
     }
     
-    public void SwitchMode() { 
+    private void SwitchMode() { 
     	Scheduler.getInstance().disable();
     	teleOpDriveCommand.cancel(); 
     	autonomousDriveCommand.cancel(); 
